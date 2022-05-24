@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace APIGateWayAPP
 {
@@ -15,10 +16,14 @@ namespace APIGateWayAPP
         public static void Main(string[] args)
         {
             IWebHostBuilder builder = new WebHostBuilder();
+            builder.ConfigureServices(s =>
+            {
+                s.AddSingleton(builder);
+            });
             builder.UseKestrel()
-        .UseContentRoot(Directory.GetCurrentDirectory())
-        .UseStartup<Startup>()
-        .UseUrls("http://localhost:9000");
+                   .UseContentRoot(Directory.GetCurrentDirectory())
+                   .UseStartup<Startup>()
+                   .UseUrls("http://localhost:9000");
 
             var host = builder.Build();
             host.Run();

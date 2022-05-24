@@ -8,7 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CustomerAPIServices
+namespace Login
 {
     public class Program
     {
@@ -20,7 +20,7 @@ namespace CustomerAPIServices
         public static IWebHost BuildWebHost(string[] args) =>
              WebHost.CreateDefaultBuilder(args)
                  .UseStartup<Startup>()
-                 .UseUrls("http://localhost:9005")
+                 .UseUrls("http://localhost:9300")
                  .Build();
     }
 }
