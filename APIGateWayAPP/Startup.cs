@@ -45,6 +45,13 @@ namespace APIGateWayAPP
                 }).WithDictionaryHandle();
             };
             services.AddOcelot(Configuration, settings);
+            services.AddCors(options => options.AddPolicy("CorsPolicy", builder =>
+            {
+                builder.AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader();
+            }));
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -54,7 +61,7 @@ namespace APIGateWayAPP
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            app.UseCors("CorsPolicy");
             app.UseMvc();
             await app.UseOcelot();
         }

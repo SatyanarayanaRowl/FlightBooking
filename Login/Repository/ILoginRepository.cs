@@ -10,5 +10,6 @@ namespace Login.Repository
     {
         Task<Logins> GetUserDetails(string UserName, string Password);
         Task InsertUserDetails(Logins Login);
+        Task<Logins> GetUserWithUserName(string user);
     }
 }

@@ -28,6 +28,7 @@ namespace Login
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.Configure<Controllers.LoginController.Audience>(Configuration.GetSection("Audience"));
             services.AddSwaggerGen();
             services.AddSwaggerGen(
                 c => {
@@ -42,6 +43,13 @@ namespace Login
             services.AddDbContext<LoginDbContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("LoginConString")));
             services.AddTransient<ILoginRepository, LoginRepository>();
+            services.AddCors(options => options.AddPolicy("CorsPolicy", builder =>
+            {
+                builder.AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader();
+            }));
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -51,6 +59,7 @@ namespace Login
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseCors("CorsPolicy");
             app.UseSwagger();
             app.UseSwaggerUI(
                 c => {
@@ -58,6 +67,7 @@ namespace Login
                     c.RoutePrefix = string.Empty;
                 });
             app.UseMvc();
+            
         }
     }
 }

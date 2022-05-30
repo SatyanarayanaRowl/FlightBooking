@@ -16,9 +16,14 @@ namespace Login.Repository
         {
             this.loginDbContext = loginDbContext;
         }
-        public async Task<Logins> GetUserDetails(string UserName, string Password)
+        public async Task<Logins> GetUserDetails(string UserName, string PassWord)
         {
-            return await loginDbContext.Logins.FirstOrDefaultAsync(x => x.UserName == UserName && x.Password== Password);
+            return await loginDbContext.Logins.FirstOrDefaultAsync(x => x.UserName == UserName && x.PassWord== PassWord);
+        }
+
+        public async Task<Logins> GetUserWithUserName(string user)
+        {
+            return await loginDbContext.Logins.FirstOrDefaultAsync(x => x.UserName == user);
         }
 
         public async Task InsertUserDetails(Logins Login)
@@ -26,10 +31,6 @@ namespace Login.Repository
             await loginDbContext.Logins.AddAsync(Login);
             await loginDbContext.SaveChangesAsync();
         }
-
-        public Task InsertUserDetails(string UserName, string Password)
-        {
-            throw new NotImplementedException();
-        }
+        
     }
 }
